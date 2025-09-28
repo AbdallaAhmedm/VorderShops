@@ -1,26 +1,26 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Vorder.Application.Interfaces.Repositories;
 using Vorder.Infrastructure.Data;
+using Vorder.Infrastructure.Data.Repositories;
 
 namespace Microsoft.Extensions.DependencyInjection;
-    public static class DependencyInjection
+public static class DependencyInjection
+{
+
+    public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
     {
-
-        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services, IConfiguration configuration)
+        services.AddDbContext<ApplicationDbContext>(options =>
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
-            {
-                options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
-                    b => b.MigrationsAssembly("Vorder.Infrastructure"));
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"),
+                b => b.MigrationsAssembly("Vorder.Infrastructure"));
 
-            });
+        });
 
-        
-            //services.AddScoped<IPatientRepository, PatientRepository>();
-            //services.AddScoped<IAppointmentRepository, AppointmentRepository>();
-            //services.AddScoped<IDoctorRepository, DoctorRepository>();
 
-            return services;
-        }
+        services.AddScoped<IShopRepository, ShopRepository>();
+
+        return services;
     }
+}
 
