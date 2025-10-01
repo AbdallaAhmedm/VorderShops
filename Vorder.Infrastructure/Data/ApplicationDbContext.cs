@@ -61,6 +61,7 @@ namespace Vorder.Infrastructure.Data
         }
 
         public DbSet<Shop> Shops { get; set; }
+        public DbSet<RequestLog> RequestLogs { get; set; }
 
     }
 

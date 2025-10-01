@@ -19,6 +19,7 @@ public static class DependencyInjection
 
 
         services.AddScoped<IShopRepository, ShopRepository>();
+        services.AddScoped<IRequestLogRepository, RequestLogRepository>();
 
         return services;
     }
