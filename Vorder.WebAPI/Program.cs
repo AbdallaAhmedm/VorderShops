@@ -38,6 +38,7 @@ builder.Services.AddControllers();
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
     .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders()
     .AddApiEndpoints();
 builder.Services.AddInfrastructureServices(builder.Configuration);
 builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, ApplicationUserClaimsPrincipalFactory>();
@@ -55,11 +56,12 @@ builder.Services.AddAuthorizationBuilder()
 var app = builder.Build();
 
 app.UseSwagger();
-app.UseSwaggerUI(c =>
-{
-    c.SwaggerEndpoint("/Vorder/swagger/v1/swagger.json", "My API V1");
-    c.RoutePrefix = string.Empty;
-});
+app.UseSwaggerUI();
+//app.UseSwaggerUI(c =>
+//{
+//    c.SwaggerEndpoint("/Vorder/swagger/v1/swagger.json", "My API V1");
+//    c.RoutePrefix = string.Empty;
+//});
 
 var roleManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 if (!await roleManager.RoleExistsAsync(ApplicationRoles.Admin))

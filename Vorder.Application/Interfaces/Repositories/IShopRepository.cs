@@ -5,7 +5,7 @@ namespace Vorder.Application.Interfaces.Repositories
 {
     public interface IShopRepository : IGenericRepository<Shop>
     {
-
         Task<Shop> AddShopAsync(CreateShopDTO entity, Guid userID);
+        Task<Shop> GetShopByNameAsync(string shopName);
     }
 }

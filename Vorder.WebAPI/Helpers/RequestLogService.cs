@@ -1,5 +1,4 @@
 ﻿using System.Text;
-using Vorder.Application.Interfaces.Repositories;
 using Vorder.Domain.Entities;
 using Vorder.Infrastructure.Data;
 
@@ -11,7 +10,6 @@ namespace Vorder.WebAPI.Helpers
         {
 
             var path = request.Path.ToString();
-            request.Headers.TryGetValue("X-API-Key", out var potentialApiKey);
 
             var requestLog = new RequestLog
             {

@@ -1,4 +1,5 @@
-﻿using Vorder.Application.DTOs.Shop;
+﻿using Microsoft.EntityFrameworkCore;
+using Vorder.Application.DTOs.Shop;
 using Vorder.Application.Interfaces.Repositories;
 using Vorder.Application.Mapper;
 using Vorder.Domain.Entities;
@@ -25,6 +26,12 @@ namespace Vorder.Infrastructure.Data.Repositories
             }
             _context.SaveChanges();
             return shop;
+        }
+
+        public async Task<Shop> GetShopByNameAsync(string shopName)
+        {
+            return await _context.Shops.Where(s => s.ShopName == shopName).SingleOrDefaultAsync();
+        
         }
     }
 }

@@ -1,0 +1,31 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Vorder.Application.ResultPattern
+{
+    public static class Errors
+    {
+        public static ApplicationError Unauthorized(string errorMsg, string errorCode)
+        {
+            return new ApplicationError(errorMsg, errorCode);
+        }
+
+        public static ApplicationError NotFound(string errorMsg, string errorCode)
+        {
+            return new ApplicationError(errorMsg, errorCode);
+        }
+
+        public static ApplicationError ServerError(string errorMsg = ErrorConstants.SERVERERROR, string errorCode = ErrorConstants.SERVERERRORCODE)
+        {
+            return new ApplicationError(errorMsg, errorCode);
+        }
+
+        public static ApplicationError Exists(string errorMsg, string errorCode)
+        {
+            return new ApplicationError(errorMsg, errorCode);
+        }
+    }
+}

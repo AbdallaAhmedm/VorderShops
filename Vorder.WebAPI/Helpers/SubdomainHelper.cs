@@ -16,8 +16,8 @@ public static class SubdomainHelper
 
     public static async Task<string> GetUsernameByID(Guid id,UserManager<ApplicationUser> _userManager)
     {
-        ApplicationUser user = await _userManager.FindByIdAsync(id.ToString());
-        string userName = user != null ? user.UserName : "Unknown";
+        ApplicationUser? user = await _userManager.FindByIdAsync(id.ToString());
+        string userName = user != null ? user.UserName! : "Unknown";
         return userName;
     }
 }
