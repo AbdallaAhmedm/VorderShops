@@ -15,8 +15,7 @@ namespace Vorder.WebAPI.Controllers.Authentication
     public class AuthenticationController(UserManager<ApplicationUser> userManager,
                                     IEmailService emailSender) : ControllerBase
     {
-
-        [HttpPost("Register")]
+        [HttpPost(Name = "Register")]
         public async Task<ApplicationResult<string>> Register(RegisterDto model)
         {
             var user = new ApplicationUser { UserName = model.Username, Email = model.Email, PhoneNumber = model.PhoneNumber };
@@ -35,7 +34,7 @@ namespace Vorder.WebAPI.Controllers.Authentication
             var token = await userManager.GenerateEmailConfirmationTokenAsync(user);
             var encodedToken = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(token));
 
-            var confirmationLink = $"{Request.Scheme}://{Request.Host}/api/Authentication/ConfirmEmail?userId={user.Id}&token={encodedToken}";
+            var confirmationLink = $"{Request.Scheme}://{Request.Host}/Vorder/api/Authentication/ConfirmEmail?userId={user.Id}&token={encodedToken}";
             string emailBody = $@"
                     <p>Please confirm your account by clicking the button below:</p>
                     <a href='{confirmationLink}' 
@@ -57,7 +56,7 @@ namespace Vorder.WebAPI.Controllers.Authentication
             return "User registered. Please check your email to confirm your account.";
         }
 
-        [HttpGet("ConfirmEmail")]
+        [HttpGet(Name = "ConfirmEmail")]
         public async Task<ApplicationResult<string>> ConfirmEmail(string userId, string token)
         {
             var user = await userManager.FindByIdAsync(userId);

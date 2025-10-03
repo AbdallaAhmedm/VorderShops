@@ -73,14 +73,14 @@ builder.Services.AddAuthorizationBuilder()
     .AddPolicy("CustomerPolicy", policy => policy.RequireRole(ApplicationRoles.Customer));
 
 var app = builder.Build();
-
+app.UsePathBase("/Vorder");
 app.UseSwagger();
 app.UseSwaggerUI();
-//app.UseSwaggerUI(c =>
-//{
-//    c.SwaggerEndpoint("/Vorder/swagger/v1/swagger.json", "My API V1");
-//    c.RoutePrefix = string.Empty;
-//});
+app.UseSwaggerUI(c =>
+{
+    c.SwaggerEndpoint("/Vorder/swagger/v1/swagger.json", "My API V1");
+    c.RoutePrefix = string.Empty;
+});
 
 var roleManager = app.Services.CreateScope().ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
 if (!await roleManager.RoleExistsAsync(ApplicationRoles.Admin))
