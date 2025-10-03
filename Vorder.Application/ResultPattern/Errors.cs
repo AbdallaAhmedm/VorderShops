@@ -27,5 +27,9 @@ namespace Vorder.Application.ResultPattern
         {
             return new ApplicationError(errorMsg, errorCode);
         }
+        public static ApplicationError ValidationError(string errorMsg = ErrorConstants.VALIDATIONERROR, string errorCode = ErrorConstants.VALIDATIONERRORCODE)
+        {
+            return new ApplicationError(errorMsg, errorCode);
+        }
     }
 }

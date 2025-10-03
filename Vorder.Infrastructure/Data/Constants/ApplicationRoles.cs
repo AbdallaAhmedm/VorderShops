@@ -1,4 +1,4 @@
-﻿namespace Vorder.Infrastructure.Data
+﻿namespace Vorder.Infrastructure.Data.Constants
 {
     public static class ApplicationRoles
     {

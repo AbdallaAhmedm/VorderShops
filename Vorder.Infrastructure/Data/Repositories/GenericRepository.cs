@@ -39,6 +39,15 @@ namespace Vorder.Infrastructure.Data.Repositories
         {
             _entities.Remove(entity);
         }
+        public async Task<IEnumerable<TEntity>> GetPagedAsync(int pageNumber, int pageSize)
+        {
+            var items = await _entities
+           .Skip((pageNumber - 1) * pageSize)
+           .Take(pageSize)
+           .ToListAsync();
+
+            return items;
+        }
 
         public async Task SaveChangesAsync()
         {

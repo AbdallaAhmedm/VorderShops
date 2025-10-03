@@ -1,8 +1,13 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Configuration;
 using Microsoft.OpenApi.Models;
 using Vorder.Application.Interfaces.Repositories;
+using Vorder.Application.Interfaces.Services.Email;
+using Vorder.Domain.Models;
 using Vorder.Infrastructure.Data;
+using Vorder.Infrastructure.Data.Constants;
 using Vorder.Infrastructure.Data.Repositories;
+using Vorder.Infrastructure.Services.Email;
 using Vorder.WebAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,9 +26,14 @@ builder.Services.AddSwaggerGen(c =>
     {
         Title = "Vorder API",
         Version = "v1",
-        Description = "Vorder Web API"
+        Description = "Vorder Web API"        
     });
-
+    c.DocInclusionPredicate((docName, apiDesc) =>
+    {
+        if (apiDesc.RelativePath.Contains("register") || apiDesc.RelativePath.Contains("confirmEmail"))
+            return false;
+        return true;
+    });
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = "JWT Authorization header using the Bearer scheme.",
@@ -36,7 +46,11 @@ builder.Services.AddSwaggerGen(c =>
 
 builder.Services.AddControllers();
 
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = true;
+    options.User.RequireUniqueEmail = true;
+})
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders()
     .AddApiEndpoints();
@@ -47,6 +61,11 @@ builder.Services.AddAuthentication()
     .AddBearerToken(IdentityConstants.BearerScheme);
 
 builder.Services.AddScoped<IRequestLogRepository, RequestLogRepository>();
+
+EmailConfiguration? emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
+builder.Services.AddSingleton(emailConfig!);
+
+builder.Services.AddScoped<IEmailService, EmailService>();
 
 builder.Services.AddAuthorizationBuilder()
     .AddPolicy("AdminPolicy", policy => policy.RequireRole(ApplicationRoles.Admin))

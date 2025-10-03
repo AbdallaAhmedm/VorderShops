@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Vorder.Application.Interfaces.Repositories;
+using Vorder.Domain.Models;
 using Vorder.Infrastructure.Data;
 using Vorder.Infrastructure.Data.Repositories;
 
